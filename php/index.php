@@ -1,36 +1,26 @@
 <?php
-//Deel1
-//$myArray = ['auto','fiets','brommer','bus','vliegtuig','trein'];
-//$myArray[] = 'boot';
+for ($i = 0; $i <= 50; $i++) {
+echo $i . "< />";
+}
 
-//foreach ($myArray as $value) {
-//echo $value . "<br>";
-//}
-//$myArray = ['auto','fiets','brommer','bus','vliegtuig','trein'];  
+$namen = ["zakaria", "muhammed", "ghor", "vinu", "burak", "mehmet", "erencan", "gorav", "jaber", "omer"];
+foreach ($namen as $naam) {
+echo $naam . "< />";
+}
 
-//Deel 2
-//$myArray = ['auto','fiets','brommer','bus','vliegtuig','trein'];
-//$elementen = count($myArray);
-//echo "1. Het array heeft $elementen elementen.\n";
- 
-//$myArray[] = 'boot'; // Een element toevoegen aan het array
-//$elementen = count($myArray);
-//echo "1. Het array heeft $elementen elementen.";
+$maanden = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
+$maandenCount = count($maanden);
+for ($i = 0; $i < $maandenCount; $i++) {
+echo 'Maand ' . ($i + 1) . ' is ' . $maanden[$i] . '.< />';
+}
 
-//deel3
-// bar
-// 4
-// toyota
-// cars
-// 5
-//laaste elemanet van het array
+$maanden = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
+$maandNummer = 1;
+foreach ($maanden as $maand)
+{
 
-//deel4
- $cijfersPHP = [4.4, 4.6, 5.6, 6.1, 7.6, 7.2];
-$gemiddelde = array_sum($cijfersPHP) / count($cijfersPHP);
-
-echo $gemiddelde;
-echo(round(5.9166666666667) . "<br>");
+    echo 'Maand ' . $maandNummer . ' is ' . $maand . '.< />';
+$maandNummer++;
+}
 
 ?>
-
