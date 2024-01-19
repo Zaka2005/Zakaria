@@ -1,19 +1,29 @@
 <?php
 class Database {
-    public $pdo;
- 
-    public function __construct($db ="gebruikers", $host = "localhost:3306", $user = "root", $pass= "") {
-    try {
-    $this->pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-    $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (Exception $e) {
-        echo "error: " . $e->getMessage();
-     }
+    private $host = "localhost:3307";
+    private $username = "root";
+    private $password = "";
+    private $dbname = "registraties";
+
+    public function connect() {
+        try {
+            $conn = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $conn;
+        } catch (PDOException $e) {
+            throw new Exception("Connection failed: " . $e->getMessage());
+        }
     }
-    public function insert($gebruikersnaam, $wachtwoord){
-        $stmt = $this->pdo->prepare("INSERT INTO gebruiker (gebruikersnaam, wachtwoord) VALUES (?, ?)");
-        $stmt->execute([$gebruikersnaam, $wachtwoord]);
+
+    public function registerUser($username, $email, $password) {
+        try {
+            $conn = $this->connect();
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+            $stmt->execute([$username, $email, $hashedPassword]);
+        } catch (PDOException $e) {
+            throw new Exception("Registration failed: " . $e->getMessage());
+        }
     }
 }
-$connectie = new Database();
 ?>
