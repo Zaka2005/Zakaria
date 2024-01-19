@@ -1,29 +1,13 @@
 <?php
 class Database {
-    private $host = "localhost:3307";
-    private $username = "root";
-    private $password = "";
-    private $dbname = "registraties";
+    public $pdo;
 
-    public function connect() {
+
+}public function insertUser($gebruikersnaam, $email) {
         try {
-            $conn = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $conn;
+            $stmt = $this->pdo->prepare("INSERT INTO klanten (naam, stad) VALUES (?, ?)");
+            $stmt->execute([$username, $email]);
         } catch (PDOException $e) {
-            throw new Exception("Connection failed: " . $e->getMessage());
+            throw new PDOException("Fout bij het toevoegen van de gebruiker: " . $e->getMessage());
         }
     }
-
-    public function registerUser($username, $email, $password) {
-        try {
-            $conn = $this->connect();
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-            $stmt->execute([$username, $email, $hashedPassword]);
-        } catch (PDOException $e) {
-            throw new Exception("Registration failed: " . $e->getMessage());
-        }
-    }
-}
-?>
