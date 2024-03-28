@@ -1,0 +1,178 @@
+
+create database restaurant;
+use restaurant;
+
+
+CREATE TABLE `bestelling` (
+  `BestelID` int(11) NOT NULL,
+  `Bonnummer` int(11) DEFAULT NULL,
+  `ProductID` int(11) DEFAULT NULL,
+  `Aantal` int(11) DEFAULT NULL,
+  `Prijs` decimal(10,2) DEFAULT NULL,
+  `Totaal` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `bon`
+--
+
+CREATE TABLE `bon` (
+  `Bonnummer` int(11) NOT NULL,
+  `Datum` date DEFAULT NULL,
+  `Tijd` time DEFAULT NULL,
+  `Tafelnummer` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `klant`
+--
+
+CREATE TABLE `klant` (
+  `KlantID` int(11) NOT NULL,
+  `Naam` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `producten`
+--
+
+CREATE TABLE `producten` (
+  `ProductID` int(11) NOT NULL,
+  `Naam` varchar(255) DEFAULT NULL,
+  `Prijs` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `reserveringen`
+--
+
+CREATE TABLE `reserveringen` (
+  `ReserveringID` int(11) NOT NULL,
+  `KlantID` int(11) DEFAULT NULL,
+  `Datum` date DEFAULT NULL,
+  `Tijd` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `tafel`
+--
+
+CREATE TABLE `tafel` (
+  `Tafelnummer` int(11) NOT NULL,
+  `Afdeling` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexen voor geëxporteerde tabellen
+--
+
+--
+-- Indexen voor tabel `bestelling`
+--
+ALTER TABLE `bestelling`
+  ADD PRIMARY KEY (`BestelID`),
+  ADD KEY `Bonnummer` (`Bonnummer`),
+  ADD KEY `ProductID` (`ProductID`);
+
+--
+-- Indexen voor tabel `bon`
+--
+ALTER TABLE `bon`
+  ADD PRIMARY KEY (`Bonnummer`),
+  ADD KEY `Tafelnummer` (`Tafelnummer`);
+
+--
+-- Indexen voor tabel `klant`
+--
+ALTER TABLE `klant`
+  ADD PRIMARY KEY (`KlantID`);
+
+--
+-- Indexen voor tabel `producten`
+--
+ALTER TABLE `producten`
+  ADD PRIMARY KEY (`ProductID`);
+
+--
+-- Indexen voor tabel `reserveringen`
+--
+ALTER TABLE `reserveringen`
+  ADD PRIMARY KEY (`ReserveringID`),
+  ADD KEY `KlantID` (`KlantID`);
+
+--
+-- Indexen voor tabel `tafel`
+--
+ALTER TABLE `tafel`
+  ADD PRIMARY KEY (`Tafelnummer`);
+
+--
+-- AUTO_INCREMENT voor geëxporteerde tabellen
+--
+
+--
+-- AUTO_INCREMENT voor een tabel `bestelling`
+--
+ALTER TABLE `bestelling`
+  MODIFY `BestelID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `klant`
+--
+ALTER TABLE `klant`
+  MODIFY `KlantID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `producten`
+--
+ALTER TABLE `producten`
+  MODIFY `ProductID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT voor een tabel `reserveringen`
+--
+ALTER TABLE `reserveringen`
+  MODIFY `ReserveringID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Beperkingen voor geëxporteerde tabellen
+--
+
+--
+-- Beperkingen voor tabel `bestelling`
+--
+ALTER TABLE `bestelling`
+  ADD CONSTRAINT `bestelling_ibfk_1` FOREIGN KEY (`Bonnummer`) REFERENCES `bon` (`Bonnummer`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `bestelling_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `producten` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Beperkingen voor tabel `bon`
+--
+ALTER TABLE `bon`
+  ADD CONSTRAINT `bon_ibfk_1` FOREIGN KEY (`Tafelnummer`) REFERENCES `tafel` (`Tafelnummer`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Beperkingen voor tabel `reserveringen`
+--
+ALTER TABLE `reserveringen`
+  ADD CONSTRAINT `reserveringen_ibfk_1` FOREIGN KEY (`KlantID`) REFERENCES `klant` (`KlantID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Beperkingen voor tabel `tafel`
+--
+ALTER TABLE `tafel`
+  ADD CONSTRAINT `tafel_ibfk_1` FOREIGN KEY (`Tafelnummer`) REFERENCES `reserveringen` (`ReserveringID`);
+COMMIT;
+
+
+
